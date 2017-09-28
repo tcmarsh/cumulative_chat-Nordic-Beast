@@ -12,15 +12,34 @@ public class CumulativeChat {
     //Hashset to make sure there are no duplicates
     HashSet<Student> studentTable = new HashSet<>();
     
+    //Arraylist of Groups that the Group class can return to
+    ArrayList<Group> pairs;
+    
     //Iterates through allStudents and adds all the students to the HashSet
     public void GroupUp() {
-        Student student;
-        Iterator<Student> iterator = allStudents.iterator();
-        while(iterator.hasNext()){
-            student = iterator.next();
-            System.out.println(student.Name());
+        Student s1;
+        Student s2;
+        
+        RunHash();
+        
+        //Iterates over the studentTable hash set, and puts pairs into group objects
+        Iterator<Student> hIterator = studentTable.iterator();
+        while(hIterator.hasNext()){
+            s1 = hIterator.next();
+            if(hIterator.hasNext()){
+                s2 = hIterator.next();
+                pairs.add(new Group(s1,s2));
+            }
         }
         
+    }
+    
+    //Puts all the names of students on the ArrayList into a HashSet, to prevent duplicates.
+    private void RunHash() {
+        Iterator<Student> iterator = allStudents.iterator();
+        while(iterator.hasNext()){
+            studentTable.add(iterator.next());
+        }
     }
     
     //Adds students to the ArrayList
@@ -30,17 +49,13 @@ public class CumulativeChat {
 
     public static void main(String[] args) {
         CumulativeChat chat = new CumulativeChat();
-        
-//        Student aForsling = new Student("Austin", "Forsling", 80);
-//        Student jBehunin = new Student("Justin", "Behunin", 77);
-//        Student kBrown = new Student("Kenyon", "Brown", 92);
+
         chat.add(new Student("Austin", "Forsling", 80));
         chat.add(new Student("Justin", "Behunin", 77));
         chat.add(new Student("Kenyon", "Brown", 92));
         chat.add(new Student("Nicholas", "Goldberg", 52));
         chat.GroupUp();
-//        System.out.println(aForsling.Name());
-//        System.out.println(jBehunin.Name());
-//        System.out.println(kBrown.Name());
     }
+
+    
 }
