@@ -14,7 +14,6 @@ public class Student {
         fName = first;
         lName = last;
         score = inScore;
-
     }
     
     //returns the full name of the student
