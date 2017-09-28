@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class Student {
 
+    //Important variables
     String fName = new String();
     String lName = new String();
     int score;
@@ -16,6 +17,7 @@ public class Student {
 
     }
     
+    //returns the full name of the student
     public String Name(){
         return this.fName + " " + this.lName;
     }
