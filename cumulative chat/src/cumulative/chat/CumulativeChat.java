@@ -1,25 +1,13 @@
 package cumulative.chat;
 
-import java.util.ArrayList;
-
 public class CumulativeChat {
 
-    public class Student{
-        
-        String fName = new String();
-        String lName = new String();
-        int score;
-        ArrayList<String> responses = new ArrayList<>();
-        
-        public void Student(String first, String last, int number){
-            fName = first;
-            lName = last;
-            score = number;
-            
-        }
-    }
-    
     public static void main(String[] args) {
-        
+        Student aForsling = new Student("Austin","Forsling",80);
+        Student jBehunin = new Student("Justin","Behunin",77);
+        Student kBrown = new Student("Kenyon","Brown",92);
+        System.out.println(aForsling.Name());
+        System.out.println(jBehunin.Name());
+        System.out.println(kBrown.Name());
     }
 }
