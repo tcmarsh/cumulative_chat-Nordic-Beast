@@ -17,7 +17,7 @@ public class Student {
     }
     
     //returns the full name of the student
-    public String Name(){
+    public String name(){
         return this.fName + " " + this.lName;
     }
 

@@ -18,11 +18,11 @@ public class CumulativeChat {
     ArrayList<Group> pairs = new ArrayList();
 
     //Iterates through allStudents and adds all the students to the HashSet
-    public void GroupUp() {
+    public void groupUp() {
         Student s1;
         Student s2;
 
-        RunHash();
+        runHash();
 
         //Iterates over the studentTable hash set, and puts pairs into group objects
         //If there are an odd number of objects in the hashset, it ignores the final one.
@@ -38,14 +38,14 @@ public class CumulativeChat {
         Collections.sort(pairs, new Comparator<Group>() {
             @Override
             public int compare(Group g1, Group g2) {
-                return g1.s1.Name().compareTo(g2.s1.Name());
+                return g1.s1.name().compareTo(g2.s1.name());
             }
         });
         output();
     }
 
     //Puts all the names of students on the ArrayList into a HashSet, to prevent duplicates.
-    private void RunHash() {
+    private void runHash() {
         Iterator<Student> iterator = allStudents.iterator();
         while (iterator.hasNext()) {
             studentTable.add(iterator.next());
@@ -59,9 +59,9 @@ public class CumulativeChat {
         while (gIter.hasNext()) {
             pair = gIter.next();
             for (int i = 0; i < pair.s1.responses.size(); i++) {
-                System.out.print(pair.s1.Name() + ": ");
+                System.out.print(pair.s1.name() + ": ");
                 System.out.println(pair.s1.responses.get(i));
-                System.out.print(pair.s2.Name() + ": ");
+                System.out.print(pair.s2.name() + ": ");
                 System.out.println(pair.s2.responses.get(i));
             }
             System.out.println();
@@ -96,6 +96,7 @@ public class CumulativeChat {
         chat.add(sJulien);
         chat.add(jMirabile);
         chat.add(cNash);
+        ChatWindow window = new ChatWindow();
 
 //        chat.add(new Student("Austin", "Forsling", 80));
 //        chat.add(new Student("Justin", "Behunin", 77));
@@ -105,6 +106,6 @@ public class CumulativeChat {
 //        chat.add(new Student("Steven", "Julien", 32));
 //        chat.add(new Student("Jonathan", "Mirabile", 68));
 //        chat.add(new Student("Christopher", "Nash", 100));
-        chat.GroupUp();
+//        chat.groupUp();
     }
 }
