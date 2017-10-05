@@ -16,7 +16,13 @@ public class CumulativeChat {
 
     //Arraylist of Groups that the Group class can return to
     ArrayList<Group> pairs = new ArrayList();
-
+    
+    ChatWindow window = new ChatWindow();
+    
+    public CumulativeChat(){
+        //ChatWindow window = new ChatWindow();
+    }
+    
     //Iterates through allStudents and adds all the students to the HashSet
     public void groupUp() {
         Student s1;
@@ -59,12 +65,12 @@ public class CumulativeChat {
         while (gIter.hasNext()) {
             pair = gIter.next();
             for (int i = 0; i < pair.s1.responses.size(); i++) {
-                System.out.print(pair.s1.name() + ": ");
-                System.out.println(pair.s1.responses.get(i));
-                System.out.print(pair.s2.name() + ": ");
-                System.out.println(pair.s2.responses.get(i));
+                window.textDisplay.append(pair.s1.name() + ": ");
+                window.textDisplay.append(pair.s1.responses.get(i) + "\n");
+                window.textDisplay.append(pair.s2.name() + ": ");
+                window.textDisplay.append(pair.s2.responses.get(i) + "\n");
             }
-            System.out.println();
+            window.textDisplay.append("\n");
         }
     }
 
@@ -75,11 +81,12 @@ public class CumulativeChat {
 
     public static void main(String[] args) {
         CumulativeChat chat = new CumulativeChat();
-
+        
         /* this setup takes up a lot more space, but it allows the hashset
          * to ignore duplicates, because the other version made a new Student,
          * so even if the data was the same, it was allowed into the hashset.
          */
+        
         Student aForsling = new Student("Austin", "Forsling", 80);
         Student jBehunin = new Student("Justin", "Behunin", 77);
         Student kBrown = new Student("Kenyon", "Brown", 92);
@@ -96,7 +103,7 @@ public class CumulativeChat {
         chat.add(sJulien);
         chat.add(jMirabile);
         chat.add(cNash);
-        ChatWindow window = new ChatWindow();
+        
 
 //        chat.add(new Student("Austin", "Forsling", 80));
 //        chat.add(new Student("Justin", "Behunin", 77));
@@ -106,6 +113,6 @@ public class CumulativeChat {
 //        chat.add(new Student("Steven", "Julien", 32));
 //        chat.add(new Student("Jonathan", "Mirabile", 68));
 //        chat.add(new Student("Christopher", "Nash", 100));
-//        chat.groupUp();
+        chat.groupUp();
     }
 }
