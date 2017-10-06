@@ -15,7 +15,8 @@ public class CumulativeChat {
     HashSet<Student> studentTable = new HashSet<>();
 
     //Arraylist of Groups that the Group class can return to
-    ArrayList<Group> pairs = new ArrayList();
+    // "pairs" isn't parameterized
+    ArrayList<Group> pairs = new ArrayList<>();
 
     //Iterates through allStudents and adds all the students to the HashSet
     public void GroupUp() {
@@ -46,10 +47,8 @@ public class CumulativeChat {
 
     //Puts all the names of students on the ArrayList into a HashSet, to prevent duplicates.
     private void RunHash() {
-        Iterator<Student> iterator = allStudents.iterator();
-        while (iterator.hasNext()) {
-            studentTable.add(iterator.next());
-        }
+        // (most things you may think you need to build have probably already been implemented)
+        studentTable.addAll(allStudents);
     }
 
     //Outputs the strings in the array lists of the pairs, to make a conversation.
@@ -97,14 +96,6 @@ public class CumulativeChat {
         chat.add(jMirabile);
         chat.add(cNash);
 
-//        chat.add(new Student("Austin", "Forsling", 80));
-//        chat.add(new Student("Justin", "Behunin", 77));
-//        chat.add(new Student("Kenyon", "Brown", 92));
-//        chat.add(new Student("Nicholas", "Goldberg", 52));
-//        chat.add(new Student("Tyler", "Hoyer", 26));
-//        chat.add(new Student("Steven", "Julien", 32));
-//        chat.add(new Student("Jonathan", "Mirabile", 68));
-//        chat.add(new Student("Christopher", "Nash", 100));
         chat.GroupUp();
     }
 }
