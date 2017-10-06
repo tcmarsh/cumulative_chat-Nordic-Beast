@@ -1,6 +1,7 @@
 package cumulative.chat;
 
 import java.awt.*;
+import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
@@ -14,7 +15,8 @@ public class ChatWindow extends JFrame{
     JScrollPane displayScroll = new JScrollPane(textDisplay);
     JScrollPane inputScroll = new JScrollPane(textInput);
     
-    JButton send = new JButton("send");
+    JButton sendButton = new JButton("send");
+    String inputString = new String();
     
     public ChatWindow(){
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -24,6 +26,8 @@ public class ChatWindow extends JFrame{
         this.setResizable(false);
         
         textDisplay.setEditable(false);
+        textDisplay.setLineWrap(true);
+        textDisplay.setWrapStyleWord(true);
         
         /*
         * Set max and min sized because otherwise it looked wonky
@@ -40,9 +44,22 @@ public class ChatWindow extends JFrame{
         inputPanel.add(inputScroll);
         inputPanel.setBorder(new EmptyBorder(10,10,10,10));
         
+        AbstractAction submit = new AbstractAction(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                textInput.selectAll();
+                inputString = textInput.getSelectedText();
+                textDisplay.append(inputString + "\n\n");
+                textInput.setText(null);
+            }
+        };
+        sendButton.addActionListener(submit);
+        sendButton.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER,InputEvent.CTRL_MASK),"submitted");
+        sendButton.getActionMap().put("submitted",submit);
+        
         this.add(displayPanel, BorderLayout.NORTH);
         this.add(inputPanel, BorderLayout.CENTER);
-        this.add(send, BorderLayout.SOUTH);
+        this.add(sendButton, BorderLayout.SOUTH);
         this.setVisible(true);
     }
     
