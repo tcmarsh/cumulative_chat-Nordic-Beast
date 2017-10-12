@@ -9,15 +9,15 @@ import java.util.Iterator;
 public class CumulativeChat {
 
     //Arraylist for all the students in the chatroom
-    ArrayList<Student> allStudents = new ArrayList<>();
+    private final ArrayList<Student> allStudents = new ArrayList<>();
 
     //Hashset to make sure there are no duplicates
-    HashSet<Student> studentTable = new HashSet<>();
+    private final HashSet<Student> studentTable = new HashSet<>();
 
     //Arraylist of Groups that the Group class can return to
-    ArrayList<Group> pairs = new ArrayList();
+    private final ArrayList<Group> pairs = new ArrayList();
     
-    ChatWindow window = new ChatWindow();
+    private final ChatWindow window = new ChatWindow();
     
     public CumulativeChat(){
         //ChatWindow window = new ChatWindow();
@@ -78,6 +78,10 @@ public class CumulativeChat {
     public void add(Student s) {
         allStudents.add(s);
     }
+    
+    private void connect() {
+        window.connect();
+    }
 
     public static void main(String[] args) {
         CumulativeChat chat = new CumulativeChat();
@@ -103,16 +107,7 @@ public class CumulativeChat {
         chat.add(sJulien);
         chat.add(jMirabile);
         chat.add(cNash);
-        
-
-//        chat.add(new Student("Austin", "Forsling", 80));
-//        chat.add(new Student("Justin", "Behunin", 77));
-//        chat.add(new Student("Kenyon", "Brown", 92));
-//        chat.add(new Student("Nicholas", "Goldberg", 52));
-//        chat.add(new Student("Tyler", "Hoyer", 26));
-//        chat.add(new Student("Steven", "Julien", 32));
-//        chat.add(new Student("Jonathan", "Mirabile", 68));
-//        chat.add(new Student("Christopher", "Nash", 100));
         chat.groupUp();
+        chat.connect();
     }
 }
