@@ -22,13 +22,18 @@ public class ChatWindow extends JFrame {
     private final JButton sendButton = new JButton("send");
     private String inputString = new String();
 
+    BufferedReader br;
+    Reader r;
+    InputStream inStream;
+    public Socket socket;
+
     public ChatWindow() {
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setSize(600, 600);
         BoxLayout boxLayout = new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS);
         this.setLayout(boxLayout);
         this.setResizable(false);
-        
+
         Client client = new Client();
 
         textDisplay.setEditable(false);
@@ -53,12 +58,12 @@ public class ChatWindow extends JFrame {
         AbstractAction submit = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+
                 textInput.selectAll();
                 inputString = textInput.getSelectedText();
                 client.send(inputString);
 //                textDisplay.append("\n" + inputString + "\n");
-//                textInput.setText(null);
+                textInput.setText(null);
             }
         };
         sendButton.addActionListener(submit);
@@ -70,8 +75,8 @@ public class ChatWindow extends JFrame {
         this.add(sendButton, BorderLayout.SOUTH);
         this.setVisible(true);
     }
-    
-    public String getIP(){
+
+    public String getIP() {
         String inIP;
         inIP = JOptionPane.showInputDialog(this, "What is the IP of the Server?", null);
         return inIP;
@@ -81,34 +86,59 @@ public class ChatWindow extends JFrame {
     * From here on, it's client/connection stuff.
      */
     private class Client {
+
         private PrintWriter stringOutput;
-        private Socket socket;
+
         public Client() {
-            
+
             String IP = getIP();
-            try{
-                if(IP == null){
+            try {
+                if (IP == null) {
                     IP = "0";
                 }
                 socket = new Socket(IP, 8090);
                 stringOutput = new PrintWriter(socket.getOutputStream());
-            } catch (IOException e){
-                System.out.println("Starting new Server");
+            } catch (IOException | NullPointerException e) {
+                textDisplay.append("Server could not be found, making new Server.\n\n");
+                //System.out.println("Starting new Server");
                 (new Thread(new ChatServer())).start();
-                try{
+                try {
                     System.out.println("Connecting to Server");
                     socket = new Socket("127.0.0.1", 8090);
                     stringOutput = new PrintWriter(socket.getOutputStream());
-                } catch (Exception ex){
+                    (new Thread(new printFromServer())).start();
+                } catch (Exception ex) {
                     ex.printStackTrace();
                 }
             }
         }
 
         public void send(String inputString) {
-            System.out.println(stringOutput);
+            //System.out.println(stringOutput);
             stringOutput.println(inputString);
+            stringOutput.flush();
         }
     }
 
+    private class printFromServer implements Runnable {
+
+        @Override
+        public void run() {
+            while (true) {
+                try {
+                    while (true) {
+                        inStream = socket.getInputStream();
+                        r = new InputStreamReader(inStream);
+                        br = new BufferedReader(r);
+                        while(br.ready()){
+                            textDisplay.append("\n" + br.readLine());
+                        }
+                    }
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 }
