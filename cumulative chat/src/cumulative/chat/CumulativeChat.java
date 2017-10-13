@@ -79,10 +79,6 @@ public class CumulativeChat {
         allStudents.add(s);
     }
     
-    private void connect() {
-        window.connect();
-    }
-
     public static void main(String[] args) {
         CumulativeChat chat = new CumulativeChat();
         
@@ -108,6 +104,5 @@ public class CumulativeChat {
         chat.add(jMirabile);
         chat.add(cNash);
         chat.groupUp();
-        chat.connect();
     }
 }

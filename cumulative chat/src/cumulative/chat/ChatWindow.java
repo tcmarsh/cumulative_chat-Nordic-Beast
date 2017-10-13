@@ -3,22 +3,23 @@ package cumulative.chat;
 import java.awt.*;
 import java.awt.event.*;
 import java.net.Socket;
+import java.io.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 public class ChatWindow extends JFrame {
 
     //Creating everything necessary for the window
-    private JPanel displayPanel = new JPanel();
-    private JPanel inputPanel = new JPanel();
+    private final JPanel displayPanel = new JPanel();
+    private final JPanel inputPanel = new JPanel();
 
     JTextArea textDisplay = new JTextArea();
     private JTextArea textInput = new JTextArea();
 
-    private JScrollPane displayScroll = new JScrollPane(textDisplay);
-    private JScrollPane inputScroll = new JScrollPane(textInput);
+    private final JScrollPane displayScroll = new JScrollPane(textDisplay);
+    private final JScrollPane inputScroll = new JScrollPane(textInput);
 
-    private JButton sendButton = new JButton("send");
+    private final JButton sendButton = new JButton("send");
     private String inputString = new String();
 
     public ChatWindow() {
@@ -27,6 +28,8 @@ public class ChatWindow extends JFrame {
         BoxLayout boxLayout = new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS);
         this.setLayout(boxLayout);
         this.setResizable(false);
+        
+        Client client = new Client();
 
         textDisplay.setEditable(false);
         textDisplay.setLineWrap(true);
@@ -50,8 +53,10 @@ public class ChatWindow extends JFrame {
         AbstractAction submit = new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                
                 textInput.selectAll();
                 inputString = textInput.getSelectedText();
+                client.send(inputString);
                 textDisplay.append("\n" + inputString + "\n");
                 textInput.setText(null);
             }
@@ -71,18 +76,47 @@ public class ChatWindow extends JFrame {
         inIP = JOptionPane.showInputDialog(this, "What is the IP of the Server?", null);
         return inIP;
     }
-    
-    public void connect(){
-        Client client = new Client();
+
+    private static class Handler implements Runnable {
+        private final InputStream input;
+        public Handler(InputStream inputStream) {
+            input = inputStream;
+        }
+        
+        @Override
+        public void run(){
+            for(int i = 0;i<100;i++){
+                try{
+                    System.out.println(input.read());
+                } catch(IOException e){
+                    
+                }
+            }
+        }
     }
 
     /*
     * From here on, it's client/connection stuff.
      */
     private class Client {
+        private PrintWriter stringOutput;
+        private Socket socket;
         public Client(){
-            Socket socket;
+            
             String IP = getIP();
+            try{
+                socket = new Socket(IP, 8090);
+                stringOutput = new PrintWriter(socket.getOutputStream());
+                //new Thread(new Handler(socket.getInputStream())).start();
+            } catch (IOException e){
+                System.out.println("Starting new Server");
+                (new Thread(new ChatServer())).start();
+            }
+        }
+
+        public void send(String inputString) {
+            System.out.println(stringOutput);
+            stringOutput.println(inputString);
         }
     }
 
