@@ -101,7 +101,7 @@ public class ChatWindow extends JFrame {
     private class Client {
         private PrintWriter stringOutput;
         private Socket socket;
-        public Client(){
+        public Client() {
             
             String IP = getIP();
             try{
@@ -111,6 +111,18 @@ public class ChatWindow extends JFrame {
             } catch (IOException e){
                 System.out.println("Starting new Server");
                 (new Thread(new ChatServer())).start();
+//                try{
+//                Thread.sleep(2000);
+//                } catch (InterruptedException interrupt){
+//                    
+//                }
+                try{
+                    System.out.println("Connecting to Server");
+                    socket = new Socket("127.0.0.1", 5222);
+                    stringOutput = new PrintWriter(socket.getOutputStream());
+                } catch (IOException ex){
+                    ex.printStackTrace();
+                }
             }
         }
 

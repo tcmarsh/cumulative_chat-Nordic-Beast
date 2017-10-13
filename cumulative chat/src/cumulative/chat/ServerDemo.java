@@ -10,8 +10,10 @@ public class ServerDemo {
     public ServerDemo(){
         try{
             ss = new ServerSocket(5222);
+            System.out.println("Socket made");
             
             while(true){
+                //accept blocks the program!!! Make a thread or something
                 Socket socket = ss.accept();
                 
                 int read;
