@@ -6,12 +6,18 @@ import java.net.Socket;
 
 public class ChatServer implements Runnable {
 
+    /*
+    * All the required variables for input, output, and the connection to client.
+    */
     private PrintWriter stringOutput;
     private ServerSocket ss;
     private BufferedReader br;
     private Reader r;
     private InputStream inStream;
 
+    /*
+    * The server must be run as a thread to initiate connection
+    */
     @Override
     public void run() {
         try {
@@ -28,6 +34,11 @@ public class ChatServer implements Runnable {
 
     private class SocketListener implements Runnable {
 
+        /*
+        * The main part of the Server
+        * Sets up the connection, listens for input, echos it back to the Client
+        * Checks the stream every quarter second to make sure the client doesn't get overloaded.
+        */
         @Override
         public void run() {
 
