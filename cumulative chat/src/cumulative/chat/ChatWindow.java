@@ -57,8 +57,8 @@ public class ChatWindow extends JFrame {
                 textInput.selectAll();
                 inputString = textInput.getSelectedText();
                 client.send(inputString);
-                textDisplay.append("\n" + inputString + "\n");
-                textInput.setText(null);
+//                textDisplay.append("\n" + inputString + "\n");
+//                textInput.setText(null);
             }
         };
         sendButton.addActionListener(submit);
@@ -77,24 +77,6 @@ public class ChatWindow extends JFrame {
         return inIP;
     }
 
-    private static class Handler implements Runnable {
-        private final InputStream input;
-        public Handler(InputStream inputStream) {
-            input = inputStream;
-        }
-        
-        @Override
-        public void run(){
-            for(int i = 0;i<100;i++){
-                try{
-                    System.out.println(input.read());
-                } catch(IOException e){
-                    
-                }
-            }
-        }
-    }
-
     /*
     * From here on, it's client/connection stuff.
      */
@@ -105,22 +87,19 @@ public class ChatWindow extends JFrame {
             
             String IP = getIP();
             try{
+                if(IP == null){
+                    IP = "0";
+                }
                 socket = new Socket(IP, 8090);
                 stringOutput = new PrintWriter(socket.getOutputStream());
-                //new Thread(new Handler(socket.getInputStream())).start();
             } catch (IOException e){
                 System.out.println("Starting new Server");
                 (new Thread(new ChatServer())).start();
-//                try{
-//                Thread.sleep(2000);
-//                } catch (InterruptedException interrupt){
-//                    
-//                }
                 try{
                     System.out.println("Connecting to Server");
-                    socket = new Socket("127.0.0.1", 5222);
+                    socket = new Socket("127.0.0.1", 8090);
                     stringOutput = new PrintWriter(socket.getOutputStream());
-                } catch (IOException ex){
+                } catch (Exception ex){
                     ex.printStackTrace();
                 }
             }

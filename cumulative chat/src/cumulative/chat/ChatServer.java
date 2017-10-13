@@ -15,38 +15,16 @@ public class ChatServer implements Runnable {
     private Reader r;
     private InputStream inStream;
 
-    public ChatServer() {
-        try {
-            System.out.println("Making a Server");
-            ss = new ServerSocket(5222);
-            System.out.println("Made Socket");
-
-            while (true) {
-                System.out.println("Starting a socket listen thread");
-                (new Thread(new SocketListener())).start();
-                System.out.println("running");
-            }
-        } catch (IOException e) {
-
-        }
-    }
-
     @Override
     public void run() {
-
-    }
-
-    private class SocketListener implements Runnable {
-
-        public SocketListener() {
-
-        }
-
-        @Override
-        public void run() {
-            try {
-                System.out.println("Inside listener Thread");
-                Socket socket = ss.accept();
+        try {
+            System.out.println("Making a Server");
+            ss = new ServerSocket(8090);
+            System.out.println("Made Socket");
+            System.out.println("Starting a socket listen thread");
+            Socket socket = ss.accept();
+            //(new Thread(new SocketListener())).start();
+            while (true) {
                 inStream = socket.getInputStream();
                 r = new InputStreamReader(inStream);
                 br = new BufferedReader(r);
@@ -54,12 +32,31 @@ public class ChatServer implements Runnable {
                     System.out.println("reading with buffer");
                     System.out.println(br.readLine());
                 }
-            } catch (IOException exc) {
+                System.out.println(br.ready());
+                //System.out.println(br.readLine());
+                Thread.sleep(500);
             }
+            //System.out.println("running");
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
     }
 
-    public static void main(String[] args) {
-        new ChatServer();
+    private class SocketListener implements Runnable {
+
+        @Override
+        public void run() {
+            while (true) {
+                try {
+                    System.out.println("Inside listener Thread");
+                    Socket socket = ss.accept();
+                    System.out.print("We've connected!");
+
+                } catch (Exception exc) {
+                    exc.printStackTrace();
+                }
+            }
+        }
     }
 }
