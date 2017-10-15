@@ -64,13 +64,17 @@ public class CumulativeChat {
         Iterator<Group> gIter = pairs.iterator();
         while (gIter.hasNext()) {
             pair = gIter.next();
+            
+            StringBuilder chatMessages = new StringBuilder();
             for (int i = 0; i < pair.s1.responses.size(); i++) {
-                window.textDisplay.append(pair.s1.name() + ": ");
-                window.textDisplay.append(pair.s1.responses.get(i) + "\n");
-                window.textDisplay.append(pair.s2.name() + ": ");
-                window.textDisplay.append(pair.s2.responses.get(i) + "\n");
+                chatMessages.append(pair.s1.name() + ": ");
+                chatMessages.append(pair.s1.responses.get(i) + "\n");
+                chatMessages.append(pair.s2.name() + ": ");
+                chatMessages.append(pair.s2.responses.get(i) + "\n");
             }
-            window.textDisplay.append("\n");
+            chatMessages.append("\n");
+            
+            window.appendText(chatMessages);
         }
     }
 
