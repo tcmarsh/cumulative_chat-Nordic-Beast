@@ -1,3 +1,4 @@
+// Extra classes ClientDemo and ServerDemo are left in the code.  -3pts
 package cumulative.chat;
 
 import java.net.Socket;
@@ -36,6 +37,7 @@ public class ClientDemo {
     }
     
     public static void main(String[] args){
+        // You don't have to assign a variable if it won't be used
         ClientDemo client = new ClientDemo();
     }
 }
